@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+import sys,os
+
+def print_help():
+    header = "USAGE : ./CompoMug-knowledge-module target.fasta target.csv"
+    print (header)
+    return 0
+
+def check_input():
+    
+    if len(sys.argv)!=3:
+        print_help()
+        exit()
+    
+    for f in sys.argv[1:]:
+        if not os.path.exists(f):
+            raise NameError("There are no such files")
+
+    fn_target_fasta = sys.argv[1]
+    f_target_fasta = open(fn_target_fasta, "r")
+    ls_target_fasta=f_target_fasta.readlines()
+    f_target_fasta.close()
+    
+    fn_target_csv = sys.argv[2]
+    f_target_csv = open(fn_target_csv, "r")
+    ls_target_csv = f_target_csv.readlines()
+    f_target_csv.close()
+    
+    seq_fasta = "".join(ls_target_fasta[1].rstrip().split('-'))
+    seq_csv = "".join(ls_target_csv[2].rstrip().split(',')[1:])
+    if seq_fasta!=seq_csv:
+        raise NameError(" .fasta and .csv files are not consistent!" % (fn_target_fasta, fn_target_csv))
+    
+    bw_numbering = ls_target_csv[1].rstrip().split(',')[1:]
+    ls_bws = []
+    for el in bw_numbering:
+        if el!='': ls_bws.append(el)
+    if len(ls_bws)!= len(seq_fasta):
+        raise NameError(" .fasta and .csv files are not consistent!" % (fn_target_fasta, fn_target_csv))
+
+    gpcr_layout={}
+    for i in range(len(ls_bws)):
+        gpcr_layout[ls_bws[i]]=seq_fasta[i]
+
+    return fn_target_fasta, fn_target_csv, ls_target_fasta, seq_fasta, ls_target_csv, ls_bws, gpcr_layout
+
+
+
+print( "*******************************")
+print("CompoMug : Knowledge Module")
+print("Please cite Popov et al., 'Computational design of thermostabilizing point mutations for G protein-coupled receptors', eLife, 2018")
+print("Copyright (c) 2018, Dr. Petr Popov & Dr. Seva Katritch. All rights reserved.")
+print("Copyrights licensed under the USC license.")
+print("See the accompanying LICENSE file for terms.")
+print( "*******************************")
+
+kb_mutations = {}
+kb_mutations['2.50x50']=('D', 'N', 'Sodium pocket')
+kb_mutations['3.39x39']=('S', 'A', 'Sodium pocket')
+kb_mutations['3.40x40']=('I', 'AV', 'P-I-F microswitch motif')
+kb_mutations['3.41x41']=('X' 'W', 'Roth mutation')
+kb_mutations['3.49x49']=('DG', 'A', 'D-R-Y motif')
+kb_mutations['5.58x58']=('Y', 'A', 'Conserved activation microswitch')
+kb_mutations['6.37x37']=('L','A', 'Interferes with D-R-Y motif function')
+kb_mutations['7.49x49']=('D', 'N', 'Sodium pocket')
+
+fn_target_fasta, fn_target_csv, ls_target_fasta, seq_fasta, ls_target_csv, ls_bws, gpcr_layout = check_input()
+
+for key in sorted(kb_mutations.keys()):
+    if key not in gpcr_layout.keys():
+        print ("There is no %s residue in .csv file" % (key))
+        raise ValueError()
+               
+    if gpcr_layout[key] in kb_mutations[key][0]:
+        print ("Point mutation candidate: ", key, kb_mutations[key])
+
+print( "*******************************")
+print("CompoMug : Knowledge Module")
+print("Please cite Popov et al., 'Computational design of thermostabilizing point mutations for G protein-coupled receptors', eLife, 2018")
+print("Copyright (c) 2018, Dr. Petr Popov & Dr. Seva Katritch. All rights reserved.")
+print("Copyrights licensed under the USC license.")
+print("See the accompanying LICENSE file for terms.")
+print( "*******************************")
