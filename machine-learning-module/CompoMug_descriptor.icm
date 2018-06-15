@@ -1,0 +1,528 @@
+s1 = "4eiy" # OBJECT NAME, e.g. "4eiy"
+s2 = "a"# CHAIN ID, e.g. "a"
+s3 = "ala" # MUTANT RESIDUE, e.g. "ala"
+i = 100 # RESIDUE INDEX FOR MUTATION, e.g. 100
+copyMol Mol( a_$s1. ) "wt" yes
+rename a_wt.$s2 "receptor"
+convertObject a_wt. 1==1 yes yes yes yes yes no ""+(3==2 ? "water=tight ":"" )
+rs = a_wt.receptor/*
+ll = Label(rs[i])[1]
+rso1 = (a_$s1.$s2/*)[i]
+llo1 = Label(rso1)[1]
+aa = ll[1]
+nn = Integer (Replace(ll, "[A-Z]", ""))
+copyMol Mol( a_wt. ) "mut" yes
+mutateResidue (a_mut.receptor/*)[i] s3
+set terms only "vw,14,hb,el,to,ss"
+vwMethod = "soft"
+rc1 = 5.0
+as1 = Sphere( (a_mut.receptor/*)[i] a_mut.* rc1) & !a_mut.receptor//ca,c,n,o,oxt
+ds xsticks Res(as1)
+center as1
+color (as1 & ( (a_mut.receptor/*)[i] & a_mut.receptor//c*) ) red
+minimize v_//x* & as1 "vw,14,hb,el,to"
+unds xsticks
+water_radius = 1.4
+accuracy_level = 5
+R1 = Rarray(1,-1.0)
+resId = i
+rs01 = (a_wt.receptor/*)[resId]
+rs02 = (a_mut.receptor/*)[resId]
+rs01name = Name(rs01)[1]
+rs02name = Name(rs02)[1]
+d1 = 0.0
+d2 = 0.0
+ind = 1 
+aa = Label(rs01)[1][1]
+if 	(aa=="A") 	then
+	R2 = {	0.62,	27.5,	8.1,	0.046,	1.181,	0.007187 }
+elseif 	(aa=="C")	then
+	R2 = {	0.29,	44.6,	5.5,	0.128,	1.461,	-0.03661 }
+elseif 	(aa=="D")	then 
+	R2 = {	-0.9,	40.0,	13.0,	0.105,	1.587,	-0.02382 }
+elseif 	(aa=="E")	then
+	R2 = {	-0.74,	62.0,	12.3,	0.151,	1.862,	0.006802 }
+elseif 	(aa=="F")	then
+	R2 = {	1.19,	115.5,	5.2,	0.29,	2.228,	0.037552 }
+elseif 	(aa=="G")	then
+	R2 = {	0.48,	0.0,	9.0,	0.0,	0.881,	0.179052 }
+elseif 	(aa=="H")	then
+	R2 = {	-0.4,	79.0,	10.4,	0.23,	2.025,	-0.01069 }
+elseif 	(aa=="I")	then
+	R2 = {	1.38,	93.5,	5.2,	0.186,	1.81,	0.021631 }
+elseif 	(aa=="K")	then
+	R2 = {	-1.5,	100.0,	11.3,	0.219,	2.258,	0.017708 }
+elseif 	(aa=="L")	then
+	R2 = {	1.06,	93.5,	4.9,	0.186,	1.931,	0.051672 }
+elseif 	(aa=="M")	then
+	R2 = {	0.64,	94.1,	5.7,	0.221,	2.034,	0.002683 }
+elseif 	(aa=="N")	then
+	R2 = {	-0.78,	58.7,	11.6,	0.134,	1.655,	0.005392 }
+elseif 	(aa=="P")	then 
+	R2 = {	0.12,	41.9,	8.0,	0.131,	1.468,	0.239531 }
+elseif 	(aa=="Q")	then 
+	R2 = {	-0.85,	80.7,	10.5,	0.18,	1.932,	0.049211 }
+elseif  (aa=="R")	then 
+	R2 = {	-2.53,	105.0,	10.5,	0.291,	2.56,	0.043587 }
+elseif  (aa=="S")	then 
+	R2 = {	-0.18,	29.3,	9.2,	0.062,	1.298,	0.004627 }
+elseif 	(aa=="T")	then 
+	R2 = {	-0.05,	51.3,	8.6,	0.108,	1.525,	0.003352 }
+elseif 	(aa=="V")	then 
+	R2 = {	1.08,	71.5,	5.9,	0.14,	1.645,	0.057004 }
+elseif 	(aa=="W")	then 
+	R2 = {	0.81,	145.5,	5.4,	0.409,	2.663,	0.037977 }
+elseif 	(aa=="Y")	then
+	R2 = {	0.26,	117.3,	6.2,	0.298,	2.368,	0.023599 }
+else 	
+	print "Error in input amino acid", aa
+	quit
+endif
+aa = Label(rs02)[1][1]
+if 	(aa=="A") 	then
+	R3 = {	0.62,	27.5,	8.1,	0.046,	1.181,	0.007187 }
+elseif 	(aa=="C")	then
+	R3 = {	0.29,	44.6,	5.5,	0.128,	1.461,	-0.03661 }
+elseif 	(aa=="D")	then 
+	R3 = {	-0.9,	40.0,	13.0,	0.105,	1.587,	-0.02382 }
+elseif 	(aa=="E")	then
+	R3 = {	-0.74,	62.0,	12.3,	0.151,	1.862,	0.006802 }
+elseif 	(aa=="F")	then
+	R3= {	1.19,	115.5,	5.2,	0.29,	2.228,	0.037552 }
+elseif 	(aa=="G")	then
+	R3= {	0.48,	0.0,	9.0,	0.0,	0.881,	0.179052 }
+elseif 	(aa=="H")	then
+	R3= {	-0.4,	79.0,	10.4,	0.23,	2.025,	-0.01069 }
+elseif 	(aa=="I")	then
+	R3= {	1.38,	93.5,	5.2,	0.186,	1.81,	0.021631 }
+elseif 	(aa=="K")	then
+	R3= {	-1.5,	100.0,	11.3,	0.219,	2.258,	0.017708 }
+elseif 	(aa=="L")	then
+	R3= {	1.06,	93.5,	4.9,	0.186,	1.931,	0.051672 }
+elseif 	(aa=="M")	then
+	R3= {	0.64,	94.1,	5.7,	0.221,	2.034,	0.002683 }
+elseif 	(aa=="N")	then
+	R3= {	-0.78,	58.7,	11.6,	0.134,	1.655,	0.005392 }
+elseif 	(aa=="P")	then 
+	R3= {	0.12,	41.9,	8.0,	0.131,	1.468,	0.239531 }
+elseif 	(aa=="Q")	then 
+	R3= {	-0.85,	80.7,	10.5,	0.18,	1.932,	0.049211 }
+elseif  (aa=="R")	then 
+	R3= {	-2.53,	105.0,	10.5,	0.291,	2.56,	0.043587 }
+elseif  (aa=="S")	then 
+	R3= {	-0.18,	29.3,	9.2,	0.062,	1.298,	0.004627 }
+elseif 	(aa=="T")	then 
+	R3= {	-0.05,	51.3,	8.6,	0.108,	1.525,	0.003352 }
+elseif 	(aa=="V")	then 
+	R3= {	1.08,	71.5,	5.9,	0.14,	1.645,	0.057004 }
+elseif 	(aa=="W")	then 
+	R3= {	0.81,	145.5,	5.4,	0.409,	2.663,	0.037977 }
+elseif 	(aa=="Y")	then
+	R3= {	0.26,	117.3,	6.2,	0.298,	2.368,	0.023599 }
+else 	
+	print "Error in input amino acid", aa
+	quit
+endif
+for i=1,Nof(R2)
+	R1  = R1 // R2[i]
+	R1  = R1 // (R3[i]-R2[i])
+endfor
+delete R2
+delete R3
+show area skin rs01 a_wt.* surfaceAccuracy=accuracy_level  waterRadius=water_radius
+d1 = r_out
+show area skin rs02 a_mut.* surfaceAccuracy=accuracy_level  waterRadius=water_radius
+d2 = r_out
+R1  = R1 // d1
+R1  = R1 // (d2-d1)
+as1 = Sphere(rs01 a_wt.* rc1) & ! a_wt.receptor//h*
+show volume skin as1
+rskin = r_out
+vwExpand_tmp = vwExpand
+vwExpand = 0.
+show volume surface as1
+rsurf = r_out
+vwExpand = vwExpand_tmp
+if (rsurf==0) then
+	"Error: surface area is 0"
+	quit
+endif
+d1 = rskin/rsurf
+as1 = Sphere(rs02 a_mut.* rc1) & ! a_mut.receptor//h*
+show volume skin as1
+rskin = r_out
+vwExpand_tmp = vwExpand
+vwExpand = 0.
+show volume surface as1
+rsurf = r_out
+vwExpand = vwExpand_tmp
+if (rsurf==0) then
+	"Error: surface area is 0"
+	quit
+endif
+d2 = rskin/rsurf
+R1  = R1 // d1
+R1  = R1 // (d2-d1)
+if (Name(rs01)[1]!="gly") then
+	d3 = Atom(rs01) & !a_wt.receptor//h*,ca,c,n,o
+else
+	d3 = Atom(rs01) & !a_wt.receptor//h*
+endif
+rs03 =  Mean(Xyz(d3))
+d4 = Sphere(rs03 a_wt.receptor/* rc1) & !a_wt.receptor//h* & !rs01
+r_max = rc1
+for i=1,Nof(d3)
+	d = Distance(rs03, Xyz(d3[1])[1])
+	if (d>r_max) then
+		r_max = d
+	endif
+endfor
+rsp1 = rc1+water_radius
+vol0 = 4.0/3.0*Pi*rsp1 *rsp1 *rsp1 
+show volume skin d3
+vol1 = r_out
+show volume skin d4
+vol2 = r_out
+show vol0, vol1, vol2
+d1 = (vol0 - vol1 - vol2)/vol0
+R1  = R1 // d1
+if (Name(rs01)[1]!="gly") then
+	d3 = Atom(rs01) & !a_wt.receptor//h*,ca,c,n,o
+else
+	d3 = Atom(rs01) & !a_wt.receptor//h*
+endif
+rs03 =  Mean(Xyz(d3))
+d4 = Sphere(rs03 a_wt.* rc1) & !a_wt.receptor//h* & !rs01
+res_vol = d3 | d4
+show grob volume skin res_vol
+vol = r_out
+d1 = vol
+if (Name(rs02)[1]!="gly") then
+	d3 = Atom(rs02) & !a_mut.receptor//h*,ca,c,n,o
+else
+	d3 = Atom(rs02) & !a_mut.receptor//h*
+endif
+rs03 =  Mean(Xyz(d3))
+d4 = Sphere(rs03 a_mut.* rc1) & !a_mut.receptor//h* & !rs02
+res_vol = d3 | d4
+show grob volume skin res_vol
+vol = r_out
+d2 = vol
+R1  = R1 // (d2-d1)
+ls01 = {"asn", "gln", "thr", "ser", "tyr", "trp", "his"}
+ls02 = {"lys", "arg"}
+ls03 = {"asp", "glu"}
+ls04 = {"ala", "leu", "ile", "val", "met"}
+ls05 = {"phe", "trp", "tyr", "his"}
+ls06 = {"cys", "cyss", "pro", "gly"}
+R2 = Rarray(6, 0.0)
+rs10 = Sphere(rs01 a_wt.receptor/* rc1, residue) & !rs01
+for i=1,Nof(rs10)
+	s10 = Name(rs10[i])[1]
+	ls10 = Sarray(s10)
+	if Nof(InList(ls01, ls10))!=0 then
+		R2[1] = R2[1]+1.0
+	endif
+	if Nof(InList(ls02, ls10))!=0 then
+		R2[2] = R2[2]+1.0
+	endif
+	if Nof(InList(ls03, ls10))!=0 then
+		R2[3] = R2[3]+1.0
+	endif
+	if Nof(InList(ls04, ls10))!=0 then
+		R2[4] = R2[4]+1.0
+	endif
+	if Nof(InList(ls05, ls10))!=0 then
+		R2[5] = R2[5]+1.0
+	endif
+	if Nof(InList(ls06, ls10))!=0 then
+		R2[6] = R2[6]+1.0
+	endif		
+endfor
+R3 = Rarray(6, 0.0)
+rs10 = Sphere(rs02 a_mut.receptor/* rc1 residue) & !rs02
+for i=1,Nof(rs10)
+	s10 = Name(rs10[i])[1]
+	ls10 = Sarray(s10)
+	if Nof(InList(ls01, ls10))!=0 then
+		R3[1] = R3[1]+1.0
+	endif
+	if Nof(InList(ls02, ls10))!=0 then
+		R3[2] = R3[2]+1.0
+	endif
+	if Nof(InList(ls03, ls10))!=0 then
+		R3[3] = R3[3]+1.0
+	endif
+	if Nof(InList(ls04, ls10))!=0 then
+		R3[4] = R3[4]+1.0
+	endif
+	if Nof(InList(ls05, ls10))!=0 then
+		R3[5] = R3[5]+1.0
+	endif
+	if Nof(InList(ls06, ls10))!=0 then
+		R3[6] = R3[6]+1.0
+	endif		
+endfor
+for i=1, Nof(R2):
+	R1  = R1 // R2[i]
+	R1  = R1 // (R3[i]-R2[i])
+endfor
+delete R2
+delete R3
+koeff = 2.0
+R2 = Rarray(10, 0.0)
+if (Name(rs01)[1]!="gly") then
+	as = Atom(rs01) & !a_wt.receptor//ca,c,n,o,h*
+else
+	as = Atom(rs01) & !a_wt.receptor//h*
+endif
+for i=1,Nof(as)
+	an1 = Name(as[i])[1]
+	rs20 = Sphere(as[i] a_wt.* rc1) & !Atom(rs01) & !a_wt.*//h*
+	for j=1,Nof(rs20)
+		an2 = Name(rs20[j])[1]
+		d_max = (Radius(as[i])[1]+Radius(rs20[j])[1])*koeff
+		d = Distance(as[i], rs20[j])
+		if (d>d_max) then
+			continue
+		endif
+		if (an1[1]=="c" & an2[1]=="c") then
+			R2[1] = R2[1]+1.0
+		endif
+		if ( (an1[1]=="c" & an2[1]=="n") | (an1[1]=="n" & an2[1]=="c") ) then
+			R2[2] = R2[2]+1.0
+		endif
+		if ( (an1[1]=="c" & an2[1]=="o") | (an1[1]=="o" & an2[1]=="c") ) then
+			R2[3] = R2[3]+1.0
+		endif
+		if ( (an1[1]=="c" & an2[1]=="s") | (an1[1]=="s" & an2[1]=="c") ) then
+			R2[4] = R2[4]+1.0
+		endif
+		if (an1[1]=="n" & an2[1]=="n") then
+			R2[5] = R2[5]+1.0
+		endif
+		if ( (an1[1]=="n" & an2[1]=="o") | (an1[1]=="o" & an2[1]=="n") ) then
+			R2[6] = R2[6]+1.0
+		endif
+		if ( (an1[1]=="n" & an2[1]=="s") | (an1[1]=="s" & an2[1]=="n") ) then
+			R2[7] = R2[7]+1.0
+		endif
+		if (an1[1]=="o" & an2[1]=="o") then
+			R2[8] = R2[8]+1.0
+		endif
+		if ( (an1[1]=="o" & an2[1]=="s") | (an1[1]=="s" & an2[1]=="o") ) then
+			R2[9] = R2[9]+1.0
+		endif
+		if (an1[1]=="s" & an2[1]=="s") then
+			R2[10] = R2[10]+1.0
+		endif	
+	endfor
+endfor
+R3 = Rarray(10, 0.0)
+if (Name(rs02)[1]!="gly") then
+	as = Atom(rs02) & !a_mut.receptor//ca,c,n,o,h*
+else
+	as = Atom(rs02) & !a_mut.receptor//h*
+endif
+for i=1,Nof(as)
+	an1 = Name(as[i])[1]
+	rs20 = Sphere(as[i] a_mut.* rc1) & !Atom(rs02) & !a_mut.*//h*
+	for j=1,Nof(rs20)
+		an2 = Name(rs20[j])[1]
+		d_max = (Radius(as[i])[1]+Radius(rs20[j])[1])*koeff
+		d = Distance(as[i], rs20[j])
+		if (d>d_max) then
+			continue
+		endif
+		if (an1[1]=="c" & an2[1]=="c") then
+			R3[1] = R3[1]+1.0
+		endif
+		if ( (an1[1]=="c" & an2[1]=="n") | (an1[1]=="n" & an2[1]=="c") ) then
+			R3[2] = R3[2]+1.0
+		endif
+		if ( (an1[1]=="c" & an2[1]=="o") | (an1[1]=="o" & an2[1]=="c") ) then
+			R3[3] = R3[3]+1.0
+		endif
+		if ( (an1[1]=="c" & an2[1]=="s") | (an1[1]=="s" & an2[1]=="c") ) then
+			R3[4] = R3[4]+1.0
+		endif
+		if (an1[1]=="n" & an2[1]=="n") then
+			R3[5] = R3[5]+1.0
+		endif
+		if ( (an1[1]=="n" & an2[1]=="o") | (an1[1]=="o" & an2[1]=="n") ) then
+			R3[6] = R3[6]+1.0
+		endif
+		if ( (an1[1]=="n" & an2[1]=="s") | (an1[1]=="s" & an2[1]=="n") ) then
+			R3[7] = R3[7]+1.0
+		endif
+		if (an1[1]=="o" & an2[1]=="o") then
+			R3[8] = R3[8]+1.0
+		endif
+		if ( (an1[1]=="o" & an2[1]=="s") | (an1[1]=="s" & an2[1]=="o") ) then
+			R3[9] = R3[9]+1.0
+		endif
+		if (an1[1]=="s" & an2[1]=="s") then
+			R3[10] = R3[10]+1.0
+		endif	
+	endfor
+endfor
+for i=1, Nof(R2):
+	R1  = R1 // R2[i]
+	R1  = R1 // (R3[i]-R2[i])
+endfor
+delete R2
+delete R3
+R2 = Rarray(5, 0.0)
+s_terms = "vw,14,hb,el,to,ss"
+vwMethod = "soft"
+d10 = 0.0
+vsMin = v_wt.*//x* & Sphere(rs01 a_wt.* rc1 residue)
+set terms only s_terms
+minimize vsMin 1000
+as1 = Sphere(rs01 a_wt.* rc1) & !a_wt.receptor//v*
+set terms only s_terms
+set bfactor as1 0.0
+make map potential "ge" Atom(a_wt.*)
+show energy atom as1 "ge"
+d10 = Sum(Bfactor(as1)-20.)
+R2[1] = Real(d10)
+delete m_ge
+set terms only s_terms
+set bfactor as1 0.0
+make map potential "gc" Atom(a_wt.*)
+show energy atom as1 "gc"
+d10 = Sum(Bfactor(as1)-20.)
+R2[2] = Real(d10)
+delete m_gc
+set terms only s_terms
+set bfactor as1 0.0
+make map potential "gs" Atom(a_wt.*)
+show energy atom as1 "gs"
+d10 = Sum(Bfactor(as1)-20.)
+R2[3] = Real(d10)
+delete m_gs
+set terms only s_terms
+set bfactor as1 0.0
+make map potential "gb" Atom(a_wt.*)
+show energy atom as1 "gb"
+d10 = Sum(Bfactor(as1)-20.)
+R2[4] = Real(d10)
+delete m_gb
+d10 = Energy(rs01 simple)[1]
+R2[5] = Real(d10)
+R3 = Rarray(5, 0.0)
+s_terms = "vw,14,hb,el,to,ss"
+vwMethod = "soft"
+d10 = 0.0
+vsMin = v_mut.*//x* & Sphere(rs02 a_mut.* rc1 residue)
+set terms only s_terms
+minimize vsMin 1000
+as1 = Sphere(rs02 a_mut.* rc1) & !a_mut.receptor//v*
+set terms only s_terms
+set bfactor as1 0.0
+make map potential "ge" Atom(a_mut.*)
+show energy atom as1 "ge"
+d10 = Sum(Bfactor(as1)-20.)
+R3[1] = Real(d10)
+delete m_ge
+set terms only s_terms
+set bfactor as1 0.0
+make map potential "gc" Atom(a_mut.*)
+show energy atom as1 "gc"
+d10 = Sum(Bfactor(as1)-20.)
+R3[2] = Real(d10)
+delete m_gc
+set terms only s_terms
+set bfactor as1 0.0
+make map potential "gs" Atom(a_mut.*)
+show energy atom as1 "gs"
+d10 = Sum(Bfactor(as1)-20.)
+R3[3] = Real(d10)
+delete m_gs
+set terms only s_terms
+set bfactor as1 0.0
+make map potential "gb" Atom(a_mut.*)
+show energy atom as1 "gb"
+d10 = Sum(Bfactor(as1)-20.)
+R3[4] = Real(d10)
+delete m_gb
+d10 = Energy(rs02 simple)[1]
+R3[5] = Real(d10)
+for i=1, Nof(R2):
+	R1  = R1 // R2[i]
+	R1  = R1 // (R3[i]-R2[i])
+endfor
+delete R2
+delete R3
+icmPmfProfile a_wt. yes no
+wtPMF = Rarray(Nof(t), 0.0)
+for i=1, Nof(t):
+	wtPMF[i] = t[i].ey
+endfor
+d1 = wtPMF[resId]
+delete t
+icmPmfProfile a_mut. yes no
+mutPMF = Rarray(Nof(t), 0.0)
+for i=1, Nof(t):
+	mutPMF[i] = t[i].ey
+endfor
+d2 = mutPMF[resId]
+delete t
+R1  = R1 // d1
+R1  = R1 // (d2-d1)
+R1  = R1 // (-1000.0)
+s_terms = "sf"
+set terms only s_terms
+d20 = 0.0
+R2 = Rarray(3, 0.0)
+set area a_wt.*//* 0
+show energy s_terms a_wt.*//* 
+if (Name(rs01)[1]!="gly") then
+	as1 = Sphere(rs01 a_wt.receptor/* rc1) & !a_wt.receptor//ca,c,n,o,h*,v*
+else
+	as1 = Sphere(rs01 a_wt.receptor/* rc1) & !a_wt.receptor//h*,v*
+endif
+d20 = Sum(Area(as1 energy))
+show d20
+R2[1] = Real(d20)
+d20 = Area(rs01)[1]/Area(rs01 type)[1]
+show d20
+R2[2] = Real(d20)
+rs20 = Sphere(rs01 a_wt.receptor/* rc1 residue)
+d20 = Sum(Sum(Area(rs01 rs20)))
+show d20
+R2[3] = Real(d20)
+s_terms = "sf"
+set terms only s_terms
+d20 = 0.0
+R3 = Rarray(3, 0.0)
+set area a_mut.*//* 0
+show energy s_terms a_mut.*//* 
+if (Name(rs02)[1]!="gly") then
+	as1 = Sphere(rs02 a_mut.receptor/* rc1) & !a_mut.receptor//ca,c,n,o,h*,v*
+else
+	as1 = Sphere(rs02 a_mut.receptor/* rc1) & !a_mut.receptor//h*,v*
+endif
+d20 = Sum(Area(as1 energy))
+show d20
+R3[1] = Real(d20)
+d20 = Area(rs02)[1]/Area(rs02 type)[1]
+show d20
+R3[2] = Real(d20)
+rs20 = Sphere(rs02 a_mut.receptor/* rc1 residue)
+d20 = Sum(Sum(Area(rs02 rs20)))
+show d20
+R3[3] = Real(d20)
+for i=1, Nof(R3):
+	R1  = R1 // R2[i]
+	R1  = R1 // (R3[i]-R2[i])
+endfor
+delete R2
+delete R3
+M1 = Matrix(1, 70, -1.0)
+M1[1,?] = R1
+write matrix M1 "compomug_descriptor.txt"
+show "Please cite Popov et al., 'Computational design of thermostabilizing point mutations for G protein-coupled receptors', eLife, 2018"
+show "Copyright (c) 2018, Dr. Petr Popov & Dr. Seva Katritch. All rights reserved."
+show "Copyrights licensed under the USC license."
+show "See the accompanying LICENSE file for terms."
