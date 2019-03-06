@@ -1,3 +1,7 @@
+
+
+### This code is associated with the paper from popov et al., "Computational design of thermostabilizing point mutations for G protein-coupled receptors". eLife, 2018. http://dx.doi.org/10.7554/eLife.34729
+
 CompoMug stands for COMputational Predictions Of MUtations in GPCRs. 
 
 CompoMug consists of four modules: knowledge-based, sequence-based, structure-based, and machine-learning-based, taking maximum advantage of accumulated structural and biophysical data. 
